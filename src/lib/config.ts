@@ -485,11 +485,11 @@ export async function getCacheTime(): Promise<number> {
 
 export async function getAvailableApiSites(): Promise<ApiSite[]> {
   const config = await getConfig();
-  const configSources = config.SourceConfig.filter((s) => !s.disabled).map((s) => ({
+  const configSources: ApiSite[] = config.SourceConfig.filter((s) => !s.disabled).map((s) => ({
     key: s.key,
     name: s.name,
     api: s.api,
-    detail: s.detail || undefined,
+    detail: s.detail,
   }));
 
   // 在客户端环境下，添加用户自定义的API源

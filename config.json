@@ -37,8 +37,19 @@
       "name": "茅台资源"
     },
     "wolong": {
-      "api": "https://wolongzyw.com/api.php/provide/vod",
-      "name": "卧龙资源"
+      "api": "https://collect.wolongzyw.com/api.php/provide/vod",
+      "name": "卧龙资源",
+      "detail": "https://collect.wolongzyw.com"
+    },
+    "baiduzy": {
+      "api": "https://api.apibdzy.com/api.php/provide/vod",
+      "name": "百度资源",
+      "detail": "https://api.apibdzy.com"
+    },
+    "ukuzy": {
+      "api": "https://api.ukuapi.com/api.php/provide/vod",
+      "name": "U酷资源",
+      "detail": "https://api.ukuapi.com"
     },
     "jisu": {
       "api": "https://jszyapi.com/api.php/provide/vod",
@@ -84,6 +95,11 @@
     "xiaomaomi": {
       "api": "https://zy.xmm.hk/api.php/provide/vod",
       "name": "小猫咪资源"
+    },
+    "html99": {
+      "api": "https://yun.html99.cn/api.php/provide/vod",
+      "name": "HTML99资源",
+      "detail": "https://yun.html99.cn"
     }
   }
 }

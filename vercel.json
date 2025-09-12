@@ -1,4 +1,12 @@
 {
+  "functions": {
+    "app/**/*.js": {
+      "runtime": "nodejs18.x"
+    },
+    "pages/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "headers": [
     {
       "source": "/fonts/inter-var-latin.woff2",

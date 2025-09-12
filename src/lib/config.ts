@@ -489,7 +489,7 @@ export async function getAvailableApiSites(): Promise<ApiSite[]> {
     key: s.key,
     name: s.name,
     api: s.api,
-    detail: s.detail,
+    detail: s.detail || undefined,
   }));
 
   // 在客户端环境下，添加用户自定义的API源

@@ -1,0 +1,43 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="teslaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="tvGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f87171;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="60" cy="60" r="58" fill="#1f2937" stroke="#374151" stroke-width="2"/>
+  
+  <!-- Tesla T symbol -->
+  <g transform="translate(25, 25)">
+    <!-- T top bar -->
+    <rect x="10" y="15" width="50" height="8" rx="4" fill="url(#teslaGradient)"/>
+    <!-- T vertical bar -->
+    <rect x="31" y="15" width="8" height="40" rx="4" fill="url(#teslaGradient)"/>
+    <!-- Lightning bolt accent -->
+    <path d="M35 25 L40 35 L32 35 L37 45 L30 35 L38 35 Z" fill="#fbbf24" opacity="0.8"/>
+  </g>
+  
+  <!-- TV screen -->
+  <g transform="translate(65, 35)">
+    <!-- TV frame -->
+    <rect x="0" y="0" width="30" height="22" rx="3" fill="url(#tvGradient)"/>
+    <!-- TV screen -->
+    <rect x="3" y="3" width="24" height="16" rx="1" fill="#111827"/>
+    <!-- Screen content (play button) -->
+    <polygon points="10,7 10,15 18,11" fill="#60a5fa"/>
+    <!-- TV stand -->
+    <rect x="12" y="22" width="6" height="4" rx="1" fill="#6b7280"/>
+    <rect x="8" y="26" width="14" height="2" rx="1" fill="#6b7280"/>
+  </g>
+  
+  <!-- Brand text -->
+  <text x="60" y="95" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#e5e7eb">TeslaTV</text>
+</svg>

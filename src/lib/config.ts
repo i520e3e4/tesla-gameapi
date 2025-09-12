@@ -192,7 +192,7 @@ async function initConfig() {
         }
         adminConfig = {
           SiteConfig: {
-            SiteName: process.env.SITE_NAME || 'MoonTV',
+            SiteName: process.env.SITE_NAME || 'TeslaTV',
             Announcement:
               process.env.ANNOUNCEMENT ||
               '本网站仅提供影视信息搜索服务，所有内容均来自第三方网站。本站不存储任何视频资源，不对任何内容的准确性、合法性、完整性负责。',
@@ -240,7 +240,7 @@ async function initConfig() {
     // 本地存储直接使用文件配置
     cachedConfig = {
       SiteConfig: {
-        SiteName: process.env.SITE_NAME || 'MoonTV',
+        SiteName: process.env.SITE_NAME || 'TeslaTV',
         Announcement:
           process.env.ANNOUNCEMENT ||
           '本网站仅提供影视信息搜索服务，所有内容均来自第三方网站。本站不存储任何视频资源，不对任何内容的准确性、合法性、完整性负责。',
@@ -295,7 +295,7 @@ export async function getConfig(): Promise<AdminConfig> {
     }
 
     // 合并一些环境变量配置
-    adminConfig.SiteConfig.SiteName = process.env.SITE_NAME || 'MoonTV';
+    adminConfig.SiteConfig.SiteName = process.env.SITE_NAME || 'TeslaTV';
     adminConfig.SiteConfig.Announcement =
       process.env.ANNOUNCEMENT ||
       '本网站仅提供影视信息搜索服务，所有内容均来自第三方网站。本站不存储任何视频资源，不对任何内容的准确性、合法性、完整性负责。';
@@ -429,7 +429,7 @@ export async function resetConfig() {
   }
   const adminConfig = {
     SiteConfig: {
-      SiteName: process.env.SITE_NAME || 'MoonTV',
+      SiteName: process.env.SITE_NAME || 'TeslaTV',
       Announcement:
         process.env.ANNOUNCEMENT ||
         '本网站仅提供影视信息搜索服务，所有内容均来自第三方网站。本站不存储任何视频资源，不对任何内容的准确性、合法性、完整性负责。',
@@ -485,10 +485,36 @@ export async function getCacheTime(): Promise<number> {
 
 export async function getAvailableApiSites(): Promise<ApiSite[]> {
   const config = await getConfig();
-  return config.SourceConfig.filter((s) => !s.disabled).map((s) => ({
+  const configSources = config.SourceConfig.filter((s) => !s.disabled).map((s) => ({
     key: s.key,
     name: s.name,
     api: s.api,
     detail: s.detail,
   }));
+
+  // 在客户端环境下，添加用户自定义的API源
+  if (typeof window !== 'undefined') {
+    try {
+      const customSourcesStr = localStorage.getItem('customApiSources');
+      if (customSourcesStr) {
+        const customSources = JSON.parse(customSourcesStr) as ApiSite[];
+        // 合并配置源和自定义源，自定义源优先级更高
+        const allSources = [...configSources];
+        customSources.forEach(customSource => {
+          // 检查是否已存在相同key的源，如果存在则替换，否则添加
+          const existingIndex = allSources.findIndex(s => s.key === customSource.key);
+          if (existingIndex >= 0) {
+            allSources[existingIndex] = customSource;
+          } else {
+            allSources.push(customSource);
+          }
+        });
+        return allSources;
+      }
+    } catch (error) {
+      console.error('读取自定义API源失败:', error);
+    }
+  }
+
+  return configSources;
 }

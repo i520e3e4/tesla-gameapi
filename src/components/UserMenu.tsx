@@ -32,6 +32,16 @@ export const UserMenu: React.FC = () => {
   const [enableImageProxy, setEnableImageProxy] = useState(false);
   const [enableDoubanProxy, setEnableDoubanProxy] = useState(false);
 
+  // 自定义API源管理状态
+  const [customApiSources, setCustomApiSources] = useState<Array<{key: string, name: string, api: string}>>([]);
+  const [showAddSource, setShowAddSource] = useState(false);
+  const [newSourceKey, setNewSourceKey] = useState('');
+  const [newSourceName, setNewSourceName] = useState('');
+  const [newSourceApi, setNewSourceApi] = useState('');
+  const [editingSource, setEditingSource] = useState<{key: string, name: string, api: string} | null>(null);
+  const [sourceValidating, setSourceValidating] = useState(false);
+  const [sourceError, setSourceError] = useState('');
+
   // 修改密码相关状态
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -105,6 +115,16 @@ export const UserMenu: React.FC = () => {
         localStorage.getItem('enableOptimization');
       if (savedEnableOptimization !== null) {
         setEnableOptimization(JSON.parse(savedEnableOptimization));
+      }
+
+      // 读取自定义API源
+      const savedCustomSources = localStorage.getItem('customApiSources');
+      if (savedCustomSources) {
+        try {
+          setCustomApiSources(JSON.parse(savedCustomSources));
+        } catch (error) {
+          console.error('解析自定义API源失败:', error);
+        }
       }
     }
   }, []);
@@ -271,6 +291,7 @@ export const UserMenu: React.FC = () => {
     setEnableDoubanProxy(!!defaultDoubanProxy);
     setEnableImageProxy(!!defaultImageProxy);
     setImageProxyUrl(defaultImageProxy);
+    setCustomApiSources([]);
 
     if (typeof window !== 'undefined') {
       localStorage.setItem('defaultAggregateSearch', JSON.stringify(true));
@@ -285,7 +306,143 @@ export const UserMenu: React.FC = () => {
         JSON.stringify(!!defaultImageProxy)
       );
       localStorage.setItem('imageProxyUrl', defaultImageProxy);
+      localStorage.removeItem('customApiSources');
     }
+  };
+
+  // 自定义API源管理函数
+  const saveCustomSources = (sources: Array<{key: string, name: string, api: string}>) => {
+    setCustomApiSources(sources);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('customApiSources', JSON.stringify(sources));
+    }
+  };
+
+  const validateApiSource = async (api: string): Promise<boolean> => {
+    try {
+      const testUrl = api + '?ac=videolist&wd=测试';
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
+      const response = await fetch(testUrl, {
+        method: 'GET',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+          'Accept': 'application/json'
+        },
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        return false;
+      }
+      
+      const data = await response.json();
+      return data && typeof data === 'object';
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const handleAddSource = async () => {
+    setSourceError('');
+    
+    if (!newSourceKey.trim() || !newSourceName.trim() || !newSourceApi.trim()) {
+      setSourceError('请填写完整的源信息');
+      return;
+    }
+    
+    if (customApiSources.some(source => source.key === newSourceKey.trim())) {
+      setSourceError('源标识已存在，请使用不同的标识');
+      return;
+    }
+    
+    if (!newSourceApi.startsWith('http://') && !newSourceApi.startsWith('https://')) {
+      setSourceError('API地址必须以 http:// 或 https:// 开头');
+      return;
+    }
+    
+    setSourceValidating(true);
+    const isValid = await validateApiSource(newSourceApi.trim());
+    setSourceValidating(false);
+    
+    if (!isValid) {
+      setSourceError('API源验证失败，请检查地址是否正确');
+      return;
+    }
+    
+    const newSource = {
+      key: newSourceKey.trim(),
+      name: newSourceName.trim(),
+      api: newSourceApi.trim()
+    };
+    
+    saveCustomSources([...customApiSources, newSource]);
+    setNewSourceKey('');
+    setNewSourceName('');
+    setNewSourceApi('');
+    setShowAddSource(false);
+  };
+
+  const handleEditSource = (source: {key: string, name: string, api: string}) => {
+    setEditingSource(source);
+    setNewSourceKey(source.key);
+    setNewSourceName(source.name);
+    setNewSourceApi(source.api);
+    setSourceError('');
+  };
+
+  const handleUpdateSource = async () => {
+    if (!editingSource) return;
+    
+    setSourceError('');
+    
+    if (!newSourceName.trim() || !newSourceApi.trim()) {
+      setSourceError('请填写完整的源信息');
+      return;
+    }
+    
+    if (!newSourceApi.startsWith('http://') && !newSourceApi.startsWith('https://')) {
+      setSourceError('API地址必须以 http:// 或 https:// 开头');
+      return;
+    }
+    
+    setSourceValidating(true);
+    const isValid = await validateApiSource(newSourceApi.trim());
+    setSourceValidating(false);
+    
+    if (!isValid) {
+      setSourceError('API源验证失败，请检查地址是否正确');
+      return;
+    }
+    
+    const updatedSources = customApiSources.map(source => 
+      source.key === editingSource.key 
+        ? { ...source, name: newSourceName.trim(), api: newSourceApi.trim() }
+        : source
+    );
+    
+    saveCustomSources(updatedSources);
+    setEditingSource(null);
+    setNewSourceKey('');
+    setNewSourceName('');
+    setNewSourceApi('');
+  };
+
+  const handleDeleteSource = (key: string) => {
+    const updatedSources = customApiSources.filter(source => source.key !== key);
+    saveCustomSources(updatedSources);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingSource(null);
+    setShowAddSource(false);
+    setNewSourceKey('');
+    setNewSourceName('');
+    setNewSourceApi('');
+    setSourceError('');
   };
 
   // 检查是否显示管理面板按钮
@@ -403,7 +560,7 @@ export const UserMenu: React.FC = () => {
           {/* 版本信息 */}
           <button
             onClick={() =>
-              window.open('https://github.com/senshinya/MoonTV', '_blank')
+              window.open('https://github.com/i520e3e4/tesla-gameapi', '_blank')
             }
             className='w-full px-3 py-2 text-center flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors text-xs'
           >
@@ -613,6 +770,129 @@ export const UserMenu: React.FC = () => {
               onChange={(e) => handleImageProxyUrlChange(e.target.value)}
               disabled={!enableImageProxy}
             />
+          </div>
+
+          {/* 分割线 */}
+          <div className='border-t border-gray-200 dark:border-gray-700'></div>
+
+          {/* 自定义API源管理 */}
+          <div className='space-y-4'>
+            <div className='flex items-center justify-between'>
+              <div>
+                <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                  自定义API源
+                </h4>
+                <p className='text-xs text-gray-500 dark:text-gray-400 mt-1'>
+                  添加自定义的视频API资源站，支持苹果CMS V10格式
+                </p>
+              </div>
+              <button
+                onClick={() => setShowAddSource(true)}
+                className='px-3 py-1.5 text-xs bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors'
+              >
+                添加源
+              </button>
+            </div>
+
+            {/* 自定义源列表 */}
+            {customApiSources.length > 0 && (
+              <div className='space-y-2 max-h-32 overflow-y-auto'>
+                {customApiSources.map((source) => (
+                  <div
+                    key={source.key}
+                    className='flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-md'
+                  >
+                    <div className='flex-1 min-w-0'>
+                      <div className='text-sm font-medium text-gray-900 dark:text-gray-100 truncate'>
+                        {source.name}
+                      </div>
+                      <div className='text-xs text-gray-500 dark:text-gray-400 truncate'>
+                        {source.api}
+                      </div>
+                    </div>
+                    <div className='flex items-center gap-1 ml-2'>
+                      <button
+                        onClick={() => handleEditSource(source)}
+                        className='px-2 py-1 text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300'
+                      >
+                        编辑
+                      </button>
+                      <button
+                        onClick={() => handleDeleteSource(source.key)}
+                        className='px-2 py-1 text-xs text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300'
+                      >
+                        删除
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* 添加/编辑源表单 */}
+            {(showAddSource || editingSource) && (
+              <div className='space-y-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-md'>
+                <div className='flex items-center justify-between'>
+                  <h5 className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                    {editingSource ? '编辑源' : '添加新源'}
+                  </h5>
+                  <button
+                    onClick={handleCancelEdit}
+                    className='text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+                  >
+                    <X className='w-4 h-4' />
+                  </button>
+                </div>
+                
+                {!editingSource && (
+                  <input
+                    type='text'
+                    placeholder='源标识 (如: myapi)'
+                    value={newSourceKey}
+                    onChange={(e) => setNewSourceKey(e.target.value)}
+                    className='w-full px-2 py-1.5 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                  />
+                )}
+                
+                <input
+                  type='text'
+                  placeholder='源名称 (如: 我的API站)'
+                  value={newSourceName}
+                  onChange={(e) => setNewSourceName(e.target.value)}
+                  className='w-full px-2 py-1.5 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                />
+                
+                <input
+                  type='text'
+                  placeholder='API地址 (如: https://api.example.com/api.php/provide/vod)'
+                  value={newSourceApi}
+                  onChange={(e) => setNewSourceApi(e.target.value)}
+                  className='w-full px-2 py-1.5 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                />
+                
+                {sourceError && (
+                  <div className='text-xs text-red-600 dark:text-red-400'>
+                    {sourceError}
+                  </div>
+                )}
+                
+                <div className='flex items-center gap-2'>
+                  <button
+                    onClick={editingSource ? handleUpdateSource : handleAddSource}
+                    disabled={sourceValidating}
+                    className='px-3 py-1.5 text-xs bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white rounded transition-colors'
+                  >
+                    {sourceValidating ? '验证中...' : editingSource ? '更新' : '添加'}
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className='px-3 py-1.5 text-xs bg-gray-500 hover:bg-gray-600 text-white rounded transition-colors'
+                  >
+                    取消
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

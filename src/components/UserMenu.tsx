@@ -245,6 +245,29 @@ export const UserMenu: React.FC = () => {
     }
   };
 
+  // 本地设置：是否显示成人内容（色情影片）
+  const [showAdultContent, setShowAdultContent] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('showAdultContent');
+      if (saved !== null) {
+        try {
+          setShowAdultContent(JSON.parse(saved));
+        } catch {
+          setShowAdultContent(false);
+        }
+      }
+    }
+  }, []);
+
+  const handleShowAdultToggle = (value: boolean) => {
+    setShowAdultContent(value);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('showAdultContent', JSON.stringify(value));
+    }
+  };
+
   const handleDoubanProxyUrlChange = (value: string) => {
     setDoubanProxyUrl(value);
     if (typeof window !== 'undefined') {
@@ -640,8 +663,32 @@ export const UserMenu: React.FC = () => {
                   checked={defaultAggregateSearch}
                   onChange={(e) => handleAggregateToggle(e.target.checked)}
                 />
-                <div className='w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-colors dark:bg-gray-600'></div>
-                <div className='absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5'></div>
+                <div className='w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 dark:bg-gray-700 peer-checked:bg-green-600 transition-colors'></div>
+                <div className='absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full border border-gray-300 transition-all peer-checked:translate-x-5 dark:border-gray-600'></div>
+              </div>
+            </label>
+          </div>
+
+          {/* 是否显示成人内容（色情影片） */}
+          <div className='flex items-center justify-between'>
+            <div>
+              <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                显示成人内容（18+）
+              </h4>
+              <p className='text-xs text-gray-500 dark:text-gray-400 mt-1'>
+                打开后搜索结果将包含成人/色情影片；关闭则会过滤相关结果
+              </p>
+            </div>
+            <label className='flex items-center cursor-pointer'>
+              <div className='relative'>
+                <input
+                  type='checkbox'
+                  className='sr-only peer'
+                  checked={showAdultContent}
+                  onChange={(e) => handleShowAdultToggle(e.target.checked)}
+                />
+                <div className='w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 dark:bg-gray-700 peer-checked:bg-green-600 transition-colors'></div>
+                <div className='absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full border border-gray-300 transition-all peer-checked:translate-x-5 dark:border-gray-600'></div>
               </div>
             </label>
           </div>

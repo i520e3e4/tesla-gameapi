@@ -162,19 +162,32 @@ function SearchPageClient() {
   const fetchSearchResults = async (query: string) => {
     try {
       setIsLoading(true);
+      // Read local setting for adult content
+      let showAdult = false;
+      if (typeof window !== 'undefined') {
+        try {
+          const saved = localStorage.getItem('showAdultContent');
+          showAdult = saved ? JSON.parse(saved) : false;
+        } catch {
+          showAdult = false;
+        }
+      }
       const response = await fetch(
-        `/api/search?q=${encodeURIComponent(query.trim())}`
+        `/api/search?q=${encodeURIComponent(query.trim())}&showAdult=${showAdult ? '1' : '0'}`
       );
       const data = await response.json();
       let results = data.results;
-      if (
-        typeof window !== 'undefined' &&
-        !(window as any).RUNTIME_CONFIG?.DISABLE_YELLOW_FILTER
-      ) {
-        results = results.filter((result: SearchResult) => {
-          const typeName = result.type_name || '';
-          return !yellowWords.some((word: string) => typeName.includes(word));
-        });
+      // If we explicitly set showAdult via query, do not apply additional client filtering when showAdult=true
+      if (!showAdult) {
+        if (
+          typeof window !== 'undefined' &&
+          !(window as any).RUNTIME_CONFIG?.DISABLE_YELLOW_FILTER
+        ) {
+          results = results.filter((result: SearchResult) => {
+            const typeName = result.type_name || '';
+            return !yellowWords.some((word: string) => typeName.includes(word));
+          });
+        }
       }
       setSearchResults(
         results.sort((a: SearchResult, b: SearchResult) => {

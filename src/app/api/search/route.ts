@@ -9,6 +9,8 @@ export const runtime = 'edge';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
+  // NEW: allow per-request override
+  const showAdultParam = searchParams.get('showAdult');
 
   if (!query) {
     const cacheTime = await getCacheTime();
@@ -31,7 +33,17 @@ export async function GET(request: Request) {
   try {
     const results = await Promise.all(searchPromises);
     let flattenedResults = results.flat();
-    if (!config.SiteConfig.DisableYellowFilter) {
+
+    // Determine filtering behavior
+    let shouldFilterAdult: boolean;
+    if (showAdultParam !== null) {
+      const userWantsAdult = showAdultParam === '1' || showAdultParam === 'true';
+      shouldFilterAdult = !userWantsAdult;
+    } else {
+      shouldFilterAdult = !config.SiteConfig.DisableYellowFilter;
+    }
+
+    if (shouldFilterAdult) {
       flattenedResults = flattenedResults.filter((result) => {
         const typeName = result.type_name || '';
         return !yellowWords.some((word: string) => typeName.includes(word));

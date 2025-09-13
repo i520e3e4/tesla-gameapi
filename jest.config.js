@@ -15,6 +15,9 @@ const customJestConfig = {
   moduleDirectories: ['node_modules', '<rootDir>/'],
 
   testEnvironment: 'jest-environment-jsdom',
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 
   /**
    * Absolute imports and Module Path Aliases

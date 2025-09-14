@@ -253,10 +253,10 @@ async function _fetchFromEporner(endpoint: string, params: Record<string, string
   
   switch (endpoint) {
     case 'search':
-      url = `${baseUrl}/search/?query=${encodeURIComponent(params.query || '')}&per_page=60&page=${params.page || '1'}&thumbsize=big&order=latest&gay=0&lq=1&format=json`;
+      url = `${baseUrl}/search?query=${encodeURIComponent(params.query || '')}&per_page=60&page=${params.page || '1'}&thumbsize=big&order=latest&gay=0&lq=1&format=json`;
       break;
     case 'id':
-      url = `${baseUrl}/id/?id=${params.id}&thumbsize=big&format=json`;
+      url = `${baseUrl}/id?id=${params.id}&thumbsize=big&format=json`;
       break;
     default:
       throw new Error('不支持的Eporner端点');

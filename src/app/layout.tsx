@@ -11,9 +11,9 @@ import RuntimeConfig from '@/lib/runtime';
 
 import { GlobalErrorIndicator } from '../components/GlobalErrorIndicator';
 import { SiteProvider } from '../components/SiteProvider';
-import { ThemeProvider } from '../components/ThemeProvider';
 import TeslaGamepadKeepAlive from '../components/TeslaGamepadKeepAlive';
 import TeslaOptimizer from '../components/TeslaOptimizer';
+import { ThemeProvider } from '../components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 

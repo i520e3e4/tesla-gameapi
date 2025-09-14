@@ -183,9 +183,9 @@ export class MacCMSRetryHandler {
    */
   static async withRetry<T>(
     fn: () => Promise<T>,
-    maxRetries: number = 3,
-    delay: number = 1000,
-    backoff: number = 2
+    maxRetries = 3,
+    delay = 1000,
+    backoff = 2
   ): Promise<T> {
     let lastError: any;
     

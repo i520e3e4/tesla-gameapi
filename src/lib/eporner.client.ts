@@ -30,9 +30,7 @@ export interface EpornerSearchResponse {
   videos: EpornerVideo[];
 }
 
-export interface EpornerDetailResponse extends EpornerVideo {
-  // 详情接口返回的是单个视频对象
-}
+export type EpornerDetailResponse = EpornerVideo
 
 // Eporner API 客户端类
 export class EpornerClient {
@@ -53,8 +51,8 @@ export class EpornerClient {
    */
   async search(
     query: string,
-    page: number = 1,
-    perPage: number = 60,
+    page = 1,
+    perPage = 60,
     order: 'latest' | 'longest' | 'shortest' | 'top-rated' | 'most-viewed' = 'latest'
   ): Promise<EpornerSearchResponse> {
     const params = new URLSearchParams({
@@ -95,8 +93,8 @@ export class EpornerClient {
    * @returns 已删除视频列表
    */
   async getRemovedVideos(
-    page: number = 1,
-    perPage: number = 60
+    page = 1,
+    perPage = 60
   ): Promise<{ videos: Array<{ id: string; deleted: string }> }> {
     const params = new URLSearchParams({
       per_page: perPage.toString(),

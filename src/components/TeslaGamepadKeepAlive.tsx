@@ -20,7 +20,6 @@ export default function TeslaGamepadKeepAlive() {
   useEffect(() => {
     // 检查是否支持 Gamepad API
     if (typeof navigator === 'undefined' || !navigator.getGamepads) {
-      console.log('Gamepad API not supported');
       return;
     }
 
@@ -29,7 +28,6 @@ export default function TeslaGamepadKeepAlive() {
       if (isActiveRef.current) return;
       
       isActiveRef.current = true;
-      console.log('Tesla Gamepad Keep-Alive: Started');
 
       // 高频率轮询 Gamepad API (每秒约30次)
       // 这个频率足以让特斯拉系统认为这是一个活跃的游戏应用
@@ -54,7 +52,7 @@ export default function TeslaGamepadKeepAlive() {
             console.log(`Tesla Keep-Alive: Polling gamepads (${connectedGamepads} connected)`);
           }
         } catch (error) {
-          console.error('Gamepad polling error:', error);
+          // Silently handle gamepad polling errors
         }
       }, 33); // 约30fps的轮询频率
     };

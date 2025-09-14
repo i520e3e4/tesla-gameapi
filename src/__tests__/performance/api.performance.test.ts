@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server';
+
 import { GET } from '@/app/api/maccms/route';
 
 // Performance tests for the MacCMS API

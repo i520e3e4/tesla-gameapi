@@ -334,7 +334,7 @@ export class MacCMSParamsProcessor {
   private static parseDate(dateStr: string): Date | undefined {
     try {
       // 支持多种日期格式
-      const formats = [
+      const _formats = [
         /^(\d{4})-(\d{2})-(\d{2})$/, // YYYY-MM-DD
         /^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2}):(\d{2})$/, // YYYY-MM-DD HH:mm:ss
         /^(\d{4})\/(\d{2})\/(\d{2})$/, // YYYY/MM/DD

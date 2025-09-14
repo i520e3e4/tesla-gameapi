@@ -1,5 +1,5 @@
 import { epornerClient } from '@/lib/eporner.client';
-import { EpornerVideo, EpornerSearchResponse } from '@/lib/types/eporner';
+import { EpornerSearchResponse,EpornerVideo } from '@/lib/types/eporner';
 
 // Mock fetch globally
 global.fetch = jest.fn();

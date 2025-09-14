@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server';
+
 import { GET } from '@/app/api/maccms/route';
 
 // Integration tests for the complete API flow

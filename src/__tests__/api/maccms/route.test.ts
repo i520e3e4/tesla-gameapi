@@ -1,7 +1,8 @@
 import { NextRequest } from 'next/server';
-import { GET } from '@/app/api/maccms/route';
-import { MacCMSParamsProcessor } from '@/lib/maccms.params';
+
 import { epornerClient } from '@/lib/eporner.client';
+
+import { GET } from '@/app/api/maccms/route';
 
 // Mock dependencies
 jest.mock('@/lib/eporner.client');

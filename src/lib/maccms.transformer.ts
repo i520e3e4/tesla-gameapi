@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EpornerVideo, EpornerSearchResponse } from './eporner.client';
+import { EpornerSearchResponse,EpornerVideo } from './eporner.client';
 
 // 苹果CMS V10 数据结构定义
 export interface MacCMSVideo {
@@ -124,8 +124,8 @@ export class MacCMSTransformer {
    */
   static transformSearchResponse(
     epornerResponse: EpornerSearchResponse,
-    page: number = 1,
-    limit: number = 20
+    page = 1,
+     limit = 20
   ): MacCMSResponse {
     const videos = epornerResponse.videos || [];
     const transformedVideos = videos.map((video, index) => 
@@ -465,7 +465,7 @@ export class MacCMSTransformer {
    * @param code 错误代码
    * @returns 错误响应
    */
-  static generateErrorResponse(message: string, code: number = 0): MacCMSResponse {
+  static generateErrorResponse(message: string, code = 0): MacCMSResponse {
     return {
       code,
       msg: message,
@@ -482,7 +482,7 @@ export class MacCMSTransformer {
    * @param message 消息
    * @returns 空响应
    */
-  static generateEmptyResponse(message: string = '暂无数据'): MacCMSResponse {
+  static generateEmptyResponse(message = '暂无数据'): MacCMSResponse {
     return {
       code: 1,
       msg: message,

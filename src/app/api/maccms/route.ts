@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { epornerClient, EpornerClient } from '@/lib/eporner.client';
-import { MacCMSTransformer } from '@/lib/maccms.transformer';
-import { MacCMSParamsProcessor } from '@/lib/maccms.params';
+
 import { getCacheTime } from '@/lib/config';
+import { EpornerClient,epornerClient } from '@/lib/eporner.client';
 import { 
   MacCMSCacheManager, 
   MacCMSErrorHandler, 
-  MacCMSRetryHandler,
   MacCMSPerformanceMonitor,
-  ErrorType 
-} from '@/lib/maccms.cache';
+  MacCMSRetryHandler} from '@/lib/maccms.cache';
+import { MacCMSParamsProcessor } from '@/lib/maccms.params';
+import { MacCMSTransformer } from '@/lib/maccms.transformer';
 
 export const runtime = 'edge';
 
@@ -52,11 +51,12 @@ export async function GET(request: NextRequest) {
         response = await handleCategoryList(cacheTime);
         break;
       
-      default:
+      default: {
         const error = MacCMSErrorHandler.handleValidationError('不支持的操作类型');
         MacCMSErrorHandler.logError(error, 'Action Validation');
         const errorResponse = MacCMSErrorHandler.createErrorResponse(error);
         return MacCMSCacheManager.createCachedResponse(errorResponse, 'error');
+      }
     }
     
     // 记录性能指标
@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
 }
 
 // 处理视频搜索
-async function handleVideoSearch(params: any, cacheTime: number) {
+async function handleVideoSearch(params: any, _cacheTime: number) {
   const startTime = Date.now();
   
   if (!params.keyword) {
@@ -122,7 +122,7 @@ async function handleVideoSearch(params: any, cacheTime: number) {
 }
 
 // 处理视频详情
-async function handleVideoDetail(params: any, cacheTime: number) {
+async function handleVideoDetail(params: any, _cacheTime: number) {
   const startTime = Date.now();
   
   if (!params.videoIds || params.videoIds.length === 0) {
@@ -183,7 +183,7 @@ async function handleVideoDetail(params: any, cacheTime: number) {
 
 
 // 处理视频列表
-async function handleVideoList(params: any, cacheTime: number) {
+async function handleVideoList(params: any, _cacheTime: number) {
   const startTime = Date.now();
   
   try {
@@ -216,7 +216,7 @@ async function handleVideoList(params: any, cacheTime: number) {
 }
 
 // 处理分类列表
-async function handleCategoryList(cacheTime: number) {
+async function handleCategoryList(_cacheTime: number) {
   const startTime = Date.now();
   
   try {
@@ -247,7 +247,7 @@ async function handleCategoryList(cacheTime: number) {
 }
 
 // 从Eporner API获取数据
-async function fetchFromEporner(endpoint: string, params: Record<string, string>) {
+async function _fetchFromEporner(endpoint: string, params: Record<string, string>) {
   const baseUrl = 'https://www.eporner.com/api/v2/video';
   let url = '';
   
@@ -288,7 +288,7 @@ async function fetchFromEporner(endpoint: string, params: Record<string, string>
 }
 
 // 将Eporner数据转换为苹果CMS格式
-function convertEpornerToMaccms(epornerData: any, type: 'search' | 'detail' | 'list') {
+function _convertEpornerToMaccms(epornerData: any, type: 'search' | 'detail' | 'list') {
   if (!epornerData) {
     return {
       code: 1,
@@ -419,7 +419,7 @@ function convertSingleVideo(video: any) {
 }
 
 // 根据分类ID获取查询关键词
-function getCategoryQuery(categoryId: string): string {
+function _getCategoryQuery(categoryId: string): string {
   const categoryMap: Record<string, string> = {
     '1': 'european american', // 欧美
     '2': 'japanese', // 日本

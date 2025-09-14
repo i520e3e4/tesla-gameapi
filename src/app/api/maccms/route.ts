@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       return MacCMSCacheManager.createCachedResponse(errorResponse, 'error');
     }
     
-    const cacheTime = getCacheTime();
+    const cacheTime = await getCacheTime();
     
     // 根据操作类型分发请求
     let response: NextResponse;

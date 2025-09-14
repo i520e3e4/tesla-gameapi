@@ -70,9 +70,9 @@ export class MacCMSParamsProcessor {
     const params: MacCMSParams = {};
     
     // 提取所有参数
-    for (const [key, value] of searchParams.entries()) {
+    searchParams.forEach((value, key) => {
       params[key as keyof MacCMSParams] = value;
-    }
+    });
 
     return this.parseParams(params);
   }

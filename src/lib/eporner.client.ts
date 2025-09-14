@@ -66,7 +66,7 @@ export class EpornerClient {
       format: 'json'
     });
 
-    const url = `${this.baseUrl}/search/?${params.toString()}`;
+    const url = `${this.baseUrl}/search?${params.toString()}`;
     return this.makeRequest<EpornerSearchResponse>(url);
   }
 
@@ -82,7 +82,7 @@ export class EpornerClient {
       format: 'json'
     });
 
-    const url = `${this.baseUrl}/id/?${params.toString()}`;
+    const url = `${this.baseUrl}/id?${params.toString()}`;
     return this.makeRequest<EpornerDetailResponse>(url);
   }
 
@@ -102,7 +102,7 @@ export class EpornerClient {
       format: 'json'
     });
 
-    const url = `${this.baseUrl}/removed/?${params.toString()}`;
+    const url = `${this.baseUrl}/removed?${params.toString()}`;
     return this.makeRequest(url);
   }
 

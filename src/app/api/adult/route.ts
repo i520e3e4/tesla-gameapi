@@ -1,9 +1,82 @@
 import { NextResponse } from 'next/server';
 
 import { getCacheTime, getConfig } from '@/lib/config';
-import { searchFromApi } from '@/lib/downstream';
+import { SearchResult } from '@/lib/types';
 
 export const runtime = 'edge';
+
+// 专门处理成人内容API的函数
+async function searchFromAdultApi(apiSite: any, query: string): Promise<SearchResult[]> {
+  try {
+    let apiUrl = apiSite.api;
+    
+    // 检查API格式，JSON格式的API不需要搜索参数
+    const isJsonApi = apiSite.api.includes('/api/json.php');
+    
+    if (!isJsonApi) {
+      // 标准格式的API需要添加搜索参数
+      apiUrl = apiSite.api + '?ac=videolist&wd=' + encodeURIComponent(query);
+    }
+    
+    // 添加超时处理
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    const response = await fetch(apiUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept': 'application/json',
+      },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const data = await response.json();
+    if (
+      !data ||
+      !data.list ||
+      !Array.isArray(data.list) ||
+      data.list.length === 0
+    ) {
+      return [];
+    }
+
+    // 处理结果
+    const results = data.list.map((item: any) => {
+      let episodes: string[] = [];
+
+      // 使用正则表达式从 vod_play_url 提取 m3u8 链接
+      if (item.vod_play_url) {
+        const m3u8Matches = item.vod_play_url.match(/https?:\/\/[^\s]+\.m3u8[^\s]*/g);
+        if (m3u8Matches) {
+          episodes = m3u8Matches;
+        }
+      }
+
+      return {
+        id: item.vod_id || '',
+        title: item.vod_name || '',
+        poster: item.vod_pic || '',
+        year: item.vod_year || '',
+        type_name: item.type_name || '',
+        episodes: episodes,
+        source: apiSite.name || '',
+        source_name: apiSite.name || '',
+        desc: item.vod_content || item.vod_blurb || '',
+      } as SearchResult;
+    });
+
+    return results;
+  } catch (error) {
+    console.error(`成人内容API错误 (${apiSite.name}):`, error);
+    return [];
+  }
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -47,7 +120,7 @@ export async function GET(request: Request) {
     }
 
     // 并行搜索所有成人内容站点
-    const searchPromises = adultApiSites.map((site) => searchFromApi(site, query));
+    const searchPromises = adultApiSites.map((site) => searchFromAdultApi(site, query));
     const results = await Promise.all(searchPromises);
     const flattenedResults = results.flat();
 

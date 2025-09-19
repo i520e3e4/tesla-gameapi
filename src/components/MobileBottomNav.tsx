@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import AdultContentAuth, { checkAdultContentAuth } from './AdultContentAuth';
+
 interface MobileBottomNavProps {
   /**
    * 主动指定当前激活的路径。当未提供时，自动使用 usePathname() 获取的路径。
@@ -20,7 +22,32 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
   // 当前激活路径：优先使用传入的 activePath，否则回退到浏览器地址
   const currentActive = activePath ?? pathname;
 
-  const [navItems, setNavItems] = useState([
+  // 成人内容验证状态
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  // 处理成人内容点击
+  const handleAdultContentClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // 检查是否已经验证过
+    if (checkAdultContentAuth()) {
+      window.location.href = '/search?q=成人&showAdult=1';
+    } else {
+      setShowAuthModal(true);
+    }
+  };
+
+  // 验证成功后的处理
+  const handleAuthSuccess = () => {
+    window.location.href = '/search?q=成人&showAdult=1';
+  };
+
+  const [navItems, setNavItems] = useState<Array<{
+    icon: any;
+    label: string;
+    href: string;
+    requiresAuth?: boolean;
+  }>>([
     { icon: Home, label: '首页', href: '/' },
     { icon: Search, label: '搜索', href: '/search' },
     {
@@ -42,6 +69,7 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
       icon: Star,
       label: '成人',
       href: '/search?q=成人&showAdult=1',
+      requiresAuth: true,
     },
   ]);
 
@@ -92,30 +120,60 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
               className='flex-shrink-0'
               style={{ width: '20vw', minWidth: '20vw' }}
             >
-              <Link
-                href={item.href}
-                className='flex flex-col items-center justify-center w-full h-14 gap-1 text-xs'
-              >
-                <item.icon
-                  className={`h-6 w-6 ${active
-                      ? 'text-green-600 dark:text-green-400'
-                      : 'text-gray-500 dark:text-gray-400'
-                    }`}
-                />
-                <span
-                  className={
-                    active
-                      ? 'text-green-600 dark:text-green-400'
-                      : 'text-gray-600 dark:text-gray-300'
-                  }
+              {item.requiresAuth ? (
+                <button
+                  onClick={handleAdultContentClick}
+                  className='flex flex-col items-center justify-center w-full h-14 gap-1 text-xs'
                 >
-                  {item.label}
-                </span>
-              </Link>
+                  <item.icon
+                    className={`h-6 w-6 ${active
+                        ? 'text-green-600 dark:text-green-400'
+                        : 'text-gray-500 dark:text-gray-400'
+                      }`}
+                  />
+                  <span
+                    className={
+                      active
+                        ? 'text-green-600 dark:text-green-300'
+                        : 'text-gray-600 dark:text-gray-300'
+                    }
+                  >
+                    {item.label}
+                  </span>
+                </button>
+              ) : (
+                <Link
+                  href={item.href}
+                  className='flex flex-col items-center justify-center w-full h-14 gap-1 text-xs'
+                >
+                  <item.icon
+                    className={`h-6 w-6 ${active
+                        ? 'text-green-600 dark:text-green-400'
+                        : 'text-gray-500 dark:text-gray-400'
+                      }`}
+                  />
+                  <span
+                    className={
+                      active
+                        ? 'text-green-600 dark:text-green-300'
+                        : 'text-gray-600 dark:text-gray-300'
+                    }
+                  >
+                    {item.label}
+                  </span>
+                </Link>
+              )}
             </li>
           );
         })}
       </ul>
+      
+      {/* 成人内容密码验证模态框 */}
+      <AdultContentAuth
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+      />
     </nav>
   );
 };

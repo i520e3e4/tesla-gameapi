@@ -74,7 +74,11 @@ function HomeClient() {
           }),
           getDoubanCategories({ kind: 'tv', category: 'tv', type: 'tv' }),
           getDoubanCategories({ kind: 'tv', category: 'show', type: 'show' }),
-          fetch('/api/adult?q=热门&limit=20').then(res => res.json()).catch(() => ({ results: [] }))
+          fetch('/api/adult?q=热门&limit=20', {
+            headers: {
+              'x-adult-auth': sessionStorage.getItem('adultContentAuth') === 'true' ? 'authenticated' : ''
+            }
+          }).then(res => res.json()).catch(() => ({ results: [] }))
         ]);
 
         if (moviesData.code === 200) {

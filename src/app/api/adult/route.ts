@@ -10,6 +10,20 @@ export async function GET(request: Request) {
   const query = searchParams.get('q') || '热门';
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '20');
+  const authToken = request.headers.get('x-adult-auth');
+
+  // 检查成人内容访问权限
+  if (!authToken || authToken !== 'authenticated') {
+    return NextResponse.json(
+      { error: '需要成人内容验证' },
+      { 
+        status: 403,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  }
 
   try {
     const config = await getConfig();

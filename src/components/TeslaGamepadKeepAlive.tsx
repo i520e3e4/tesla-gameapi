@@ -38,18 +38,18 @@ export default function TeslaGamepadKeepAlive() {
           
           // 可选：检查是否有真实的手柄连接
           // 但主要目的是持续调用API来维持"游戏"身份
-          let connectedGamepads = 0;
+          let _connectedGamepads = 0;
           if (gamepads) {
             for (let i = 0; i < gamepads.length; i++) {
               if (gamepads[i]) {
-                connectedGamepads++;
+                _connectedGamepads++;
               }
             }
           }
           
           // 在开发环境下可以输出调试信息
           if (process.env.NODE_ENV === 'development' && Math.random() < 0.01) {
-            console.log(`Tesla Keep-Alive: Polling gamepads (${connectedGamepads} connected)`);
+            // console.log(`Tesla Keep-Alive: Polling gamepads (${connectedGamepads} connected)`);
           }
         } catch (error) {
           // Silently handle gamepad polling errors
@@ -66,7 +66,7 @@ export default function TeslaGamepadKeepAlive() {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
-      console.log('Tesla Gamepad Keep-Alive: Stopped');
+      // console.log('Tesla Gamepad Keep-Alive: Stopped');
     };
 
     // 页面可见性变化处理
@@ -80,7 +80,7 @@ export default function TeslaGamepadKeepAlive() {
             try {
               navigator.getGamepads();
             } catch (error) {
-              console.error('Background gamepad polling error:', error);
+              // console.error('Background gamepad polling error:', error);
             }
           }, 100); // 降低到10fps
         }

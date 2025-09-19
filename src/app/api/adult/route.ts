@@ -35,7 +35,7 @@ export async function GET(request: Request) {
     // 并行搜索所有成人内容站点
     const searchPromises = adultApiSites.map((site) => searchFromApi(site, query));
     const results = await Promise.all(searchPromises);
-    let flattenedResults = results.flat();
+    const flattenedResults = results.flat();
 
     // 按时间排序（如果有时间字段）
     flattenedResults.sort((a, b) => {
@@ -68,7 +68,6 @@ export async function GET(request: Request) {
       }
     );
   } catch (error) {
-    console.error('获取成人内容失败:', error);
     return NextResponse.json({ error: '获取成人内容失败' }, { status: 500 });
   }
 }

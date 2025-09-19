@@ -11,6 +11,9 @@ export interface ApiSite {
   name: string;
   detail?: string;
   is_adult?: boolean;
+  priority?: number;
+  description?: string;
+  disabled?: boolean;
 }
 
 interface ConfigFileStruct {

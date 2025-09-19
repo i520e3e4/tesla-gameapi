@@ -20,12 +20,13 @@ async function searchFromAdultApi(apiSite: any, query: string): Promise<SearchRe
     
     // 添加超时处理
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 增加到10秒
 
     const response = await fetch(apiUrl, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
         'Accept': 'application/json',
+        'Cache-Control': 'no-cache',
       },
       signal: controller.signal,
     });
@@ -33,6 +34,7 @@ async function searchFromAdultApi(apiSite: any, query: string): Promise<SearchRe
     clearTimeout(timeoutId);
 
     if (!response.ok) {
+      console.warn(`成人内容API响应异常 (${apiSite.name}): ${response.status} ${response.statusText}`);
       return [];
     }
 
@@ -43,6 +45,7 @@ async function searchFromAdultApi(apiSite: any, query: string): Promise<SearchRe
       !Array.isArray(data.list) ||
       data.list.length === 0
     ) {
+      console.warn(`成人内容API数据为空 (${apiSite.name})`);
       return [];
     }
 
@@ -71,6 +74,7 @@ async function searchFromAdultApi(apiSite: any, query: string): Promise<SearchRe
       } as SearchResult;
     });
 
+    console.log(`成人内容API成功 (${apiSite.name}): 获取到 ${results.length} 条数据`);
     return results;
   } catch (error) {
     console.error(`成人内容API错误 (${apiSite.name}):`, error);
@@ -101,10 +105,10 @@ export async function GET(request: Request) {
   try {
     const config = await getConfig();
 
-    // 只获取标记为成人内容的API站点
-    const adultApiSites = config.SourceConfig.filter((site) =>
-      !site.disabled && site.is_adult === true
-    );
+    // 只获取标记为成人内容的API站点，按优先级排序
+    const adultApiSites = config.SourceConfig
+      .filter((site) => !site.disabled && site.is_adult === true)
+      .sort((a, b) => (a.priority || 999) - (b.priority || 999));
 
     if (adultApiSites.length === 0) {
       return NextResponse.json(
@@ -123,6 +127,13 @@ export async function GET(request: Request) {
     const searchPromises = adultApiSites.map((site) => searchFromAdultApi(site, query));
     const results = await Promise.all(searchPromises);
     const flattenedResults = results.flat();
+
+    // 统计API站点使用情况
+    const apiStats = results.map((result, index) => ({
+      site: adultApiSites[index].name,
+      count: result.length,
+      success: result.length > 0
+    }));
 
     // 按时间排序（如果有时间字段）
     flattenedResults.sort((a, b) => {
@@ -144,7 +155,10 @@ export async function GET(request: Request) {
         total: flattenedResults.length,
         page,
         limit,
-        hasMore: endIndex < flattenedResults.length
+        hasMore: endIndex < flattenedResults.length,
+        apiStats: apiStats,
+        totalApis: adultApiSites.length,
+        successfulApis: apiStats.filter(stat => stat.success).length
       },
       {
         headers: {

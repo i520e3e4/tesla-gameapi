@@ -180,8 +180,10 @@
     "lbapi9": {
       "api": "https://lbapi9.com/api.php/provide/vod",
       "name": "AV-乐播资源",
-      "detail": "",
-      "is_adult": true
+      "detail": "https://lbapi9.com",
+      "is_adult": true,
+      "priority": 1,
+      "description": "高质量成人影视资源，更新及时"
     },
     "p2100": {
       "api": "https://p2100.net/api.php/provide/vod",
@@ -193,13 +195,17 @@
       "api": "https://www.msnii.com/api/json.php",
       "name": "AV-美少女资源",
       "detail": "https://www.msnii.com",
-      "is_adult": true
+      "is_adult": true,
+      "priority": 2,
+      "description": "专业成人内容资源，内容丰富"
     },
     "xrbsp": {
       "api": "https://www.xrbsp.com/api/json.php",
       "name": "AV-淫水机资源",
       "detail": "https://www.xrbsp.com",
-      "is_adult": true
+      "is_adult": true,
+      "priority": 3,
+      "description": "多样化成人内容，更新频繁"
     },
     "jszyapi": {
       "api": "https://jszyapi.com/api.php/provide/vod",
@@ -211,13 +217,17 @@
       "api": "https://www.pgxdy.com/api/json.php",
       "name": "AV-黄AV资源",
       "detail": "https://www.pgxdy.com",
-      "is_adult": true
+      "is_adult": true,
+      "priority": 4,
+      "description": "精品成人内容，画质高清"
     },
     "gdlsp": {
       "api": "https://www.gdlsp.com/api/json.php",
       "name": "AV-香奶儿资源",
       "detail": "https://www.gdlsp.com",
-      "is_adult": true
+      "is_adult": true,
+      "priority": 5,
+      "description": "专业成人影视，内容丰富"
     },
     "hongniuzy3": {
       "api": "https://www.hongniuzy3.com/api.php/provide/vod",
@@ -227,7 +237,55 @@
     "hsckzy888": {
       "api": "https://hsckzy888.com/api.php/provide/vod",
       "name": "黄色资源啊啊",
-      "is_adult": true
+      "detail": "https://hsckzy888.com",
+      "is_adult": true,
+      "priority": 6,
+      "description": "综合成人内容，更新稳定"
+    },
+    "apittzy": {
+      "api": "https://apittzy.com/api.php/provide/vod",
+      "name": "探探资源",
+      "detail": "https://apittzy.com",
+      "is_adult": true,
+      "priority": 7,
+      "description": "优质成人影视资源",
+      "disabled": true
+    },
+    "aosikazy": {
+      "api": "https://aosikazy.com/api.php/provide/vod",
+      "name": "奥斯卡资源",
+      "detail": "https://aosikazy.com",
+      "is_adult": true,
+      "priority": 8,
+      "description": "多样化成人内容",
+      "disabled": true
+    },
+    "apilyzy": {
+      "api": "https://api.apilyzy.com/api.php/provide/vod",
+      "name": "老鸭资源",
+      "detail": "https://api.apilyzy.com",
+      "is_adult": true,
+      "priority": 9,
+      "description": "高质量成人影片",
+      "disabled": true
+    },
+    "hghhh": {
+      "api": "https://hghhh.com/api.php/provide/vod",
+      "name": "皇冠资源",
+      "detail": "https://hghhh.com",
+      "is_adult": true,
+      "priority": 10,
+      "description": "丰富成人内容",
+      "disabled": true
+    },
+    "91md": {
+      "api": "https://91md.me/api.php/provide/vod",
+      "name": "91麻豆",
+      "detail": "https://91md.me",
+      "is_adult": true,
+      "priority": 11,
+      "description": "多样成人影片资源",
+      "disabled": true
     }
   }
 }

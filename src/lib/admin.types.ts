@@ -21,6 +21,7 @@ export interface AdminConfig {
     name: string;
     api: string;
     detail?: string;
+    is_adult?: boolean;
     from: 'config' | 'custom';
     disabled?: boolean;
   }[];

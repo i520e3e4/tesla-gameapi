@@ -10,6 +10,7 @@ export interface ApiSite {
   api: string;
   name: string;
   detail?: string;
+  is_adult?: boolean;
 }
 
 interface ConfigFileStruct {
@@ -105,6 +106,7 @@ async function initConfig() {
             name: site.name,
             api: site.api,
             detail: site.detail,
+            is_adult: site.is_adult || false,
             from: 'config',
             disabled: false,
           });
@@ -213,6 +215,7 @@ async function initConfig() {
             name: site.name,
             api: site.api,
             detail: site.detail,
+            is_adult: site.is_adult || false,
             from: 'config',
             disabled: false,
           })),
@@ -261,6 +264,7 @@ async function initConfig() {
         name: site.name,
         api: site.api,
         detail: site.detail,
+        is_adult: site.is_adult || false,
         from: 'config',
         disabled: false,
       })),
@@ -456,12 +460,12 @@ export async function resetConfig() {
     CustomCategories:
       storageType === 'redis'
         ? customCategories?.map((category) => ({
-            name: category.name,
-            type: category.type,
-            query: category.query,
-            from: 'config',
-            disabled: false,
-          })) || []
+          name: category.name,
+          type: category.type,
+          query: category.query,
+          from: 'config',
+          disabled: false,
+        })) || []
         : [],
   } as AdminConfig;
 

@@ -164,7 +164,7 @@ export class MacCMSErrorHandler {
    * 记录错误日志
    */
   static logError(error: ErrorDetail, context?: string): void {
-    const logData = {
+    const _logData = {
       timestamp: new Date(error.timestamp).toISOString(),
       type: error.type,
       message: error.message,
@@ -172,7 +172,7 @@ export class MacCMSErrorHandler {
       ...(error.details && { details: error.details })
     };
     
-    console.error('[MacCMS Error]', JSON.stringify(logData, null, 2));
+    // console.error('[MacCMS Error]', JSON.stringify(logData, null, 2));
   }
 }
 
@@ -209,7 +209,7 @@ export class MacCMSRetryHandler {
         const waitTime = delay * Math.pow(backoff, attempt - 1);
         await this.sleep(waitTime);
         
-        console.warn(`[MacCMS Retry] 第${attempt}次重试失败，${waitTime}ms后进行第${attempt + 1}次尝试`);
+        // console.warn(`[MacCMS Retry] 第${attempt}次重试失败，${waitTime}ms后进行第${attempt + 1}次尝试`);
       }
     }
     
@@ -265,7 +265,7 @@ export class MacCMSPerformanceMonitor {
     
     // 记录慢查询
     if (duration > 5000) { // 超过5秒
-      console.warn(`[MacCMS Performance] 慢查询检测: ${operation} 耗时 ${duration}ms`);
+      // console.warn(`[MacCMS Performance] 慢查询检测: ${operation} 耗时 ${duration}ms`);
     }
   }
 

@@ -171,12 +171,12 @@ export class TeslaOptimizationManager {
       frequency: 30,
       onError: (error) => {
         if (process.env.NODE_ENV === 'development') {
-          console.error('Tesla Gamepad Error:', error);
+          // console.error('Tesla Gamepad Error:', error);
         }
       },
       onStatusChange: (status) => {
         if (process.env.NODE_ENV === 'development') {
-          console.log('Tesla Gamepad Status:', status);
+          // console.log('Tesla Gamepad Status:', status);
         }
       }
     });
@@ -193,16 +193,16 @@ export class TeslaOptimizationManager {
     const gamepadSupport = checkGamepadSupport();
 
     if (process.env.NODE_ENV === 'development') {
-      console.log('Tesla Optimization Environment:', {
-        tesla: teslaEnv,
-        gamepad: gamepadSupport
-      });
+      // console.log('Tesla Optimization Environment:', {
+      //   tesla: teslaEnv,
+      //   gamepad: gamepadSupport
+      // });
     }
 
     // 只在特斯拉环境或支持Gamepad时启动
     if (!teslaEnv.isTesla && !gamepadSupport.supported) {
       if (process.env.NODE_ENV === 'development') {
-        console.log('Tesla optimization not needed in this environment');
+        // console.log('Tesla optimization not needed in this environment');
       }
       return false;
     }
@@ -222,7 +222,7 @@ export class TeslaOptimizationManager {
         document.body.style.setProperty('--tesla-keepalive', (timestamp % 2).toString());
       } catch (error) {
         if (process.env.NODE_ENV === 'development') {
-          console.error('Tesla keep-alive error:', error);
+          // console.error('Tesla keep-alive error:', error);
         }
       }
     }, 1000);
@@ -240,7 +240,7 @@ export class TeslaOptimizationManager {
         document.dispatchEvent(event);
       } catch (error) {
         if (process.env.NODE_ENV === 'development') {
-          console.error('Tesla activity simulation error:', error);
+          // console.error('Tesla activity simulation error:', error);
         }
       }
     }, 5000);
@@ -264,7 +264,7 @@ export class TeslaOptimizationManager {
     // 5. 网络状态监听
     const handleNetworkChange = () => {
       if (process.env.NODE_ENV === 'development') {
-        console.log('Tesla network status:', navigator.onLine ? 'online' : 'offline');
+        // console.log('Tesla network status:', navigator.onLine ? 'online' : 'offline');
       }
     };
 
@@ -276,7 +276,7 @@ export class TeslaOptimizationManager {
     });
 
     if (process.env.NODE_ENV === 'development') {
-      console.log('Tesla optimization started successfully');
+      // console.log('Tesla optimization started successfully');
     }
     return true;
   }
@@ -307,7 +307,7 @@ export class TeslaOptimizationManager {
     this.listeners = [];
 
     if (process.env.NODE_ENV === 'development') {
-      console.log('Tesla optimization stopped');
+      // console.log('Tesla optimization stopped');
     }
   }
 

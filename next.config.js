@@ -8,6 +8,14 @@ const nextConfig = {
 
   reactStrictMode: false,
   swcMinify: true,
+  
+  // 性能优化
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'react-icons'],
+  },
+  
+  // 压缩优化
+  compress: true,
 
   // Uncoment to add domain whitelist
   images: {

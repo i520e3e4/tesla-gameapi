@@ -50,12 +50,12 @@ export default function TeslaOptimizer() {
       startOptimization();
     }
 
-    console.log('Tesla Optimizer:', {
-      isTesla: teslaDetected,
-      gamepadSupported: gamepadAvailable,
-      userAgent: navigator.userAgent,
-      screenSize: `${window.screen.width}x${window.screen.height}`
-    });
+    // console.log('Tesla Optimizer:', {
+    //   isTesla: teslaDetected,
+    //   gamepadSupported: gamepadAvailable,
+    //   userAgent: navigator.userAgent,
+    //   screenSize: `${window.screen.width}x${window.screen.height}`
+    // });
 
   }, []);
 
@@ -70,7 +70,7 @@ export default function TeslaOptimizer() {
           navigator.getGamepads();
         }
       } catch (error) {
-        console.error('Gamepad polling error:', error);
+        // console.error('Gamepad polling error:', error);
       }
     }, 33); // 30fps
 
@@ -84,7 +84,7 @@ export default function TeslaOptimizer() {
         // 触发一个微小的重绘
         document.body.style.transform = `translateZ(${timestamp % 2}px)`;
       } catch (error) {
-        console.error('Keep-alive error:', error);
+        // console.error('Keep-alive error:', error);
       }
     }, 1000); // 每秒一次
 
@@ -97,7 +97,7 @@ export default function TeslaOptimizer() {
         });
         document.dispatchEvent(event);
       } catch (error) {
-        console.error('Activity simulation error:', error);
+        // console.error('Activity simulation error:', error);
       }
     }, 5000); // 每5秒一次
 
@@ -105,10 +105,10 @@ export default function TeslaOptimizer() {
     const handleVisibilityChange = () => {
       if (document.hidden) {
         // 页面隐藏时降低频率但不停止
-        console.log('Tesla Optimizer: Page hidden, reducing frequency');
+        // console.log('Tesla Optimizer: Page hidden, reducing frequency');
       } else {
         // 页面可见时确保正常运行
-        console.log('Tesla Optimizer: Page visible, full optimization active');
+        // console.log('Tesla Optimizer: Page visible, full optimization active');
       }
     };
 
@@ -116,11 +116,11 @@ export default function TeslaOptimizer() {
 
     // 5. 网络状态监听（特斯拉车机网络可能不稳定）
     const handleOnline = () => {
-      console.log('Tesla Optimizer: Network online');
+      // console.log('Tesla Optimizer: Network online');
     };
 
     const handleOffline = () => {
-      console.log('Tesla Optimizer: Network offline, maintaining local optimization');
+      // console.log('Tesla Optimizer: Network offline, maintaining local optimization');
     };
 
     window.addEventListener('online', handleOnline);
@@ -140,7 +140,7 @@ export default function TeslaOptimizer() {
     // 将清理函数存储到组件实例
     (window as any).teslaOptimizerCleanup = cleanup;
 
-    console.log('Tesla Optimizer: Full optimization started');
+    // console.log('Tesla Optimizer: Full optimization started');
   };
 
   // 组件卸载时清理

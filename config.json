@@ -249,7 +249,7 @@
       "is_adult": true,
       "priority": 7,
       "description": "优质成人影视资源",
-      "disabled": true
+      "disabled": false
     },
     "aosikazy": {
       "api": "https://aosikazy.com/api.php/provide/vod",
@@ -258,7 +258,7 @@
       "is_adult": true,
       "priority": 8,
       "description": "多样化成人内容",
-      "disabled": true
+      "disabled": false
     },
     "apilyzy": {
       "api": "https://api.apilyzy.com/api.php/provide/vod",
@@ -267,7 +267,7 @@
       "is_adult": true,
       "priority": 9,
       "description": "高质量成人影片",
-      "disabled": true
+      "disabled": false
     },
     "hghhh": {
       "api": "https://hghhh.com/api.php/provide/vod",
@@ -276,7 +276,7 @@
       "is_adult": true,
       "priority": 10,
       "description": "丰富成人内容",
-      "disabled": true
+      "disabled": false
     },
     "91md": {
       "api": "https://91md.me/api.php/provide/vod",
@@ -285,7 +285,7 @@
       "is_adult": true,
       "priority": 11,
       "description": "多样成人影片资源",
-      "disabled": true
+      "disabled": false
     }
   }
 }

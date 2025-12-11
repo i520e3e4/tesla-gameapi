@@ -1,8 +1,10 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
+
 import { NextRequest, NextResponse } from 'next/server';
 
-import { checkAdmin } from '@/lib/auth';
+import { getAuthInfoFromCookie } from '@/lib/auth';
+import { getConfig } from '@/lib/config';
 
 const execAsync = promisify(exec);
 
@@ -12,9 +14,27 @@ const execAsync = promisify(exec);
  */
 export async function POST(request: NextRequest) {
   try {
-    // 验证管理员权限
-    const adminCheck = await checkAdmin(request);
-    if (!adminCheck.isAdmin) {
+    // 权限检查
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const username = authInfo.username;
+    const config = await getConfig();
+
+    // 检查是否是 owner 或 admin
+    let isAdmin = false;
+    if (username === process.env.USERNAME) {
+      isAdmin = true;
+    } else {
+      const user = config.UserConfig.Users.find((u) => u.username === username);
+      if (user && user.role === 'admin') {
+        isAdmin = true;
+      }
+    }
+
+    if (!isAdmin) {
       return NextResponse.json(
         { error: '需要管理员权限' },
         { status: 403 }
@@ -84,9 +104,27 @@ export async function POST(request: NextRequest) {
  */
 export async function GET(request: NextRequest) {
   try {
-    // 验证管理员权限
-    const adminCheck = await checkAdmin(request);
-    if (!adminCheck.isAdmin) {
+    // 权限检查
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const username = authInfo.username;
+    const config = await getConfig();
+
+    // 检查是否是 owner 或 admin
+    let isAdmin = false;
+    if (username === process.env.USERNAME) {
+      isAdmin = true;
+    } else {
+      const user = config.UserConfig.Users.find((u) => u.username === username);
+      if (user && user.role === 'admin') {
+        isAdmin = true;
+      }
+    }
+
+    if (!isAdmin) {
       return NextResponse.json(
         { error: '需要管理员权限' },
         { status: 403 }

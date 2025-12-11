@@ -312,9 +312,8 @@ const UserConfig = ({ config, role, refreshConfig }: UserConfigProps) => {
         </h4>
         <div className='flex items-center justify-between'>
           <label
-            className={`text-gray-700 dark:text-gray-300 ${
-              isD1Storage || isUpstashStorage ? 'opacity-50' : ''
-            }`}
+            className={`text-gray-700 dark:text-gray-300 ${isD1Storage || isUpstashStorage ? 'opacity-50' : ''
+              }`}
           >
             允许新用户注册
             {isD1Storage && (
@@ -335,22 +334,19 @@ const UserConfig = ({ config, role, refreshConfig }: UserConfigProps) => {
               toggleAllowRegister(!userSettings.enableRegistration)
             }
             disabled={isD1Storage || isUpstashStorage}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 ${
-              userSettings.enableRegistration
-                ? 'bg-green-600'
-                : 'bg-gray-200 dark:bg-gray-700'
-            } ${
-              isD1Storage || isUpstashStorage
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 ${userSettings.enableRegistration
+              ? 'bg-green-600'
+              : 'bg-gray-200 dark:bg-gray-700'
+              } ${isD1Storage || isUpstashStorage
                 ? 'opacity-50 cursor-not-allowed'
                 : ''
-            }`}
+              }`}
           >
             <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                userSettings.enableRegistration
-                  ? 'translate-x-6'
-                  : 'translate-x-1'
-              }`}
+              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${userSettings.enableRegistration
+                ? 'translate-x-6'
+                : 'translate-x-1'
+                }`}
             />
           </button>
         </div>
@@ -530,28 +526,26 @@ const UserConfig = ({ config, role, refreshConfig }: UserConfigProps) => {
                         </td>
                         <td className='px-6 py-4 whitespace-nowrap'>
                           <span
-                            className={`px-2 py-1 text-xs rounded-full ${
-                              user.role === 'owner'
-                                ? 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300'
-                                : user.role === 'admin'
+                            className={`px-2 py-1 text-xs rounded-full ${user.role === 'owner'
+                              ? 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300'
+                              : user.role === 'admin'
                                 ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300'
                                 : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                            }`}
+                              }`}
                           >
                             {user.role === 'owner'
                               ? '站长'
                               : user.role === 'admin'
-                              ? '管理员'
-                              : '普通用户'}
+                                ? '管理员'
+                                : '普通用户'}
                           </span>
                         </td>
                         <td className='px-6 py-4 whitespace-nowrap'>
                           <span
-                            className={`px-2 py-1 text-xs rounded-full ${
-                              !user.banned
-                                ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300'
-                                : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300'
-                            }`}
+                            className={`px-2 py-1 text-xs rounded-full ${!user.banned
+                              ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300'
+                              : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300'
+                              }`}
                           >
                             {!user.banned ? '正常' : '已封禁'}
                           </span>
@@ -802,11 +796,10 @@ const VideoSourceConfig = ({
         </td>
         <td className='px-6 py-4 whitespace-nowrap max-w-[1rem]'>
           <span
-            className={`px-2 py-1 text-xs rounded-full ${
-              !source.disabled
-                ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300'
-                : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300'
-            }`}
+            className={`px-2 py-1 text-xs rounded-full ${!source.disabled
+              ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300'
+              : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300'
+              }`}
           >
             {!source.disabled ? '启用中' : '已禁用'}
           </span>
@@ -814,11 +807,10 @@ const VideoSourceConfig = ({
         <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2'>
           <button
             onClick={() => handleToggleEnable(source.key)}
-            className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${
-              !source.disabled
-                ? 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-900/60'
-                : 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/60'
-            } transition-colors`}
+            className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${!source.disabled
+              ? 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-900/60'
+              : 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/60'
+              } transition-colors`}
           >
             {!source.disabled ? '禁用' : '启用'}
           </button>
@@ -1125,11 +1117,10 @@ const CategoryConfig = ({
         className='hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors select-none'
       >
         <td
-          className={`px-2 py-4 ${
-            isD1Storage || isUpstashStorage
-              ? 'text-gray-200'
-              : 'cursor-grab text-gray-400'
-          }`}
+          className={`px-2 py-4 ${isD1Storage || isUpstashStorage
+            ? 'text-gray-200'
+            : 'cursor-grab text-gray-400'
+            }`}
           style={{ touchAction: 'none' }}
           {...(isD1Storage || isUpstashStorage
             ? {}
@@ -1142,11 +1133,10 @@ const CategoryConfig = ({
         </td>
         <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100'>
           <span
-            className={`px-2 py-1 text-xs rounded-full ${
-              category.type === 'movie'
-                ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300'
-                : 'bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300'
-            }`}
+            className={`px-2 py-1 text-xs rounded-full ${category.type === 'movie'
+              ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300'
+              : 'bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300'
+              }`}
           >
             {category.type === 'movie' ? '电影' : '电视剧'}
           </span>
@@ -1159,11 +1149,10 @@ const CategoryConfig = ({
         </td>
         <td className='px-6 py-4 whitespace-nowrap max-w-[1rem]'>
           <span
-            className={`px-2 py-1 text-xs rounded-full ${
-              !category.disabled
-                ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300'
-                : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300'
-            }`}
+            className={`px-2 py-1 text-xs rounded-full ${!category.disabled
+              ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300'
+              : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300'
+              }`}
           >
             {!category.disabled ? '启用中' : '已禁用'}
           </span>
@@ -1176,13 +1165,12 @@ const CategoryConfig = ({
               handleToggleEnable(category.query, category.type)
             }
             disabled={isD1Storage || isUpstashStorage}
-            className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${
-              isD1Storage || isUpstashStorage
-                ? 'bg-gray-400 cursor-not-allowed text-white'
-                : !category.disabled
+            className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${isD1Storage || isUpstashStorage
+              ? 'bg-gray-400 cursor-not-allowed text-white'
+              : !category.disabled
                 ? 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-900/60'
                 : 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/60'
-            } transition-colors`}
+              } transition-colors`}
           >
             {!category.disabled ? '禁用' : '启用'}
           </button>
@@ -1229,11 +1217,10 @@ const CategoryConfig = ({
             !isD1Storage && !isUpstashStorage && setShowAddForm(!showAddForm)
           }
           disabled={isD1Storage || isUpstashStorage}
-          className={`px-3 py-1 text-sm rounded-lg transition-colors ${
-            isD1Storage || isUpstashStorage
-              ? 'bg-gray-400 cursor-not-allowed text-white'
-              : 'bg-green-600 hover:bg-green-700 text-white'
-          }`}
+          className={`px-3 py-1 text-sm rounded-lg transition-colors ${isD1Storage || isUpstashStorage
+            ? 'bg-gray-400 cursor-not-allowed text-white'
+            : 'bg-green-600 hover:bg-green-700 text-white'
+            }`}
         >
           {showAddForm ? '取消' : '添加分类'}
         </button>
@@ -1348,7 +1335,174 @@ const CategoryConfig = ({
   );
 };
 
+// 配置同步组件
+const ConfigSyncSection = () => {
+  const [syncing, setSyncing] = useState(false);
+  const [syncStatus, setSyncStatus] = useState<any>(null);
+  const [selectedSource, setSelectedSource] = useState('jin18');
+
+  // 获取同步状态
+  const fetchSyncStatus = async () => {
+    try {
+      const res = await fetch('/api/server-config/sync');
+      if (res.ok) {
+        const data = await res.json();
+        setSyncStatus(data.config);
+      }
+    } catch (err) {
+      console.error('获取同步状态失败:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSyncStatus();
+  }, []);
+
+  // 手动触发同步
+  const handleSync = async () => {
+    try {
+      setSyncing(true);
+      const res = await fetch('/api/server-config/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ source: selectedSource }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `同步失败: ${res.status}`);
+      }
+
+      const result = await res.json();
+      showSuccess('配置同步成功！');
+
+      // 刷新同步状态
+      await fetchSyncStatus();
+
+      // 显示同步结果
+      if (result.stats) {
+        setTimeout(() => {
+          Swal.fire({
+            icon: 'info',
+            title: '同步完成',
+            html: `
+              <div class="text-left">
+                <p><strong>配置源：</strong>${result.stats.source}</p>
+                <p><strong>同步时间：</strong>${new Date(result.stats.timestamp).toLocaleString('zh-CN')}</p>
+              </div>
+            `,
+            confirmButtonText: '确定',
+          });
+        }, 2500);
+      }
+    } catch (err) {
+      showError(err instanceof Error ? err.message : '同步失败');
+    } finally {
+      setSyncing(false);
+    }
+  };
+
+  return (
+    <div className='space-y-6'>
+      {/* 同步状态 */}
+      {syncStatus && (
+        <div>
+          <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-3'>
+            当前配置状态
+          </h4>
+          <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
+            <div className='p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800'>
+              <div className='text-2xl font-bold text-blue-800 dark:text-blue-300'>
+                {syncStatus.totalApis || 0}
+              </div>
+              <div className='text-sm text-blue-600 dark:text-blue-400'>
+                总 API 数量
+              </div>
+            </div>
+            <div className='p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800'>
+              <div className='text-2xl font-bold text-green-800 dark:text-green-300'>
+                {syncStatus.syncedApis || 0}
+              </div>
+              <div className='text-sm text-green-600 dark:text-green-400'>
+                同步的 API
+              </div>
+            </div>
+            <div className='p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800'>
+              <div className='text-2xl font-bold text-purple-800 dark:text-purple-300'>
+                {syncStatus.localCustomApis || 0}
+              </div>
+              <div className='text-sm text-purple-600 dark:text-purple-400'>
+                本地自定义 API
+              </div>
+            </div>
+          </div>
+          {syncStatus.lastModified && (
+            <p className='mt-3 text-xs text-gray-500 dark:text-gray-400'>
+              最后更新时间: {new Date(syncStatus.lastModified).toLocaleString('zh-CN')}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* 手动同步 */}
+      <div>
+        <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-3'>
+          手动同步配置
+        </h4>
+        <div className='p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700'>
+          <p className='text-sm text-gray-600 dark:text-gray-400 mb-4'>
+            从 LunaTV-config 仓库同步最新的 API 配置。系统会自动保留您的本地自定义 API。
+          </p>
+          <div className='flex flex-col sm:flex-row gap-3'>
+            <select
+              value={selectedSource}
+              onChange={(e) => setSelectedSource(e.target.value)}
+              disabled={syncing}
+              className='flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed'
+            >
+              <option value='jin18'>精简版（无成人内容）</option>
+              <option value='jingjian'>精简版+成人内容</option>
+              <option value='full'>完整版</option>
+            </select>
+            <button
+              onClick={handleSync}
+              disabled={syncing}
+              className='w-full sm:w-auto px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2'
+            >
+              {syncing ? (
+                <>
+                  <svg className='animate-spin h-4 w-4' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
+                    <circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4'></circle>
+                    <path className='opacity-75' fill='currentColor' d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'></path>
+                  </svg>
+                  同步中...
+                </>
+              ) : (
+                '立即同步'
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 说明信息 */}
+      <div className='p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800'>
+        <h5 className='text-sm font-medium text-yellow-800 dark:text-yellow-300 mb-2'>
+          ℹ️ 自动同步说明
+        </h5>
+        <ul className='text-xs text-yellow-700 dark:text-yellow-400 space-y-1 list-disc list-inside'>
+          <li>GitHub Actions 每天自动同步一次（北京时间凌晨 2 点）</li>
+          <li>同步会保留您标记为 _local 的自定义 API</li>
+          <li>同步后配置会自动更新，无需重启服务</li>
+          <li>可在 GitHub Actions 页面查看同步历史记录</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
 // 新增站点配置组件
+
 const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
   const [siteSettings, setSiteSettings] = useState<SiteConfig>({
     SiteName: '',
@@ -1417,9 +1571,8 @@ const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
       {/* 站点名称 */}
       <div>
         <label
-          className={`block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${
-            isD1Storage || isUpstashStorage ? 'opacity-50' : ''
-          }`}
+          className={`block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${isD1Storage || isUpstashStorage ? 'opacity-50' : ''
+            }`}
         >
           站点名称
           {isD1Storage && (
@@ -1442,20 +1595,18 @@ const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
             setSiteSettings((prev) => ({ ...prev, SiteName: e.target.value }))
           }
           disabled={isD1Storage || isUpstashStorage}
-          className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-            isD1Storage || isUpstashStorage
-              ? 'opacity-50 cursor-not-allowed'
-              : ''
-          }`}
+          className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-transparent ${isD1Storage || isUpstashStorage
+            ? 'opacity-50 cursor-not-allowed'
+            : ''
+            }`}
         />
       </div>
 
       {/* 站点公告 */}
       <div>
         <label
-          className={`block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${
-            isD1Storage || isUpstashStorage ? 'opacity-50' : ''
-          }`}
+          className={`block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${isD1Storage || isUpstashStorage ? 'opacity-50' : ''
+            }`}
         >
           站点公告
           {isD1Storage && (
@@ -1481,11 +1632,10 @@ const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
           }
           disabled={isD1Storage || isUpstashStorage}
           rows={3}
-          className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-            isD1Storage || isUpstashStorage
-              ? 'opacity-50 cursor-not-allowed'
-              : ''
-          }`}
+          className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-transparent ${isD1Storage || isUpstashStorage
+            ? 'opacity-50 cursor-not-allowed'
+            : ''
+            }`}
         />
       </div>
 
@@ -1530,9 +1680,8 @@ const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
       {/* 图片代理 */}
       <div>
         <label
-          className={`block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${
-            isD1Storage || isUpstashStorage ? 'opacity-50' : ''
-          }`}
+          className={`block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${isD1Storage || isUpstashStorage ? 'opacity-50' : ''
+            }`}
         >
           图片代理前缀
           {isD1Storage && (
@@ -1559,11 +1708,10 @@ const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
             }))
           }
           disabled={isD1Storage || isUpstashStorage}
-          className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-            isD1Storage || isUpstashStorage
-              ? 'opacity-50 cursor-not-allowed'
-              : ''
-          }`}
+          className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-transparent ${isD1Storage || isUpstashStorage
+            ? 'opacity-50 cursor-not-allowed'
+            : ''
+            }`}
         />
         <p className='mt-1 text-xs text-gray-500 dark:text-gray-400'>
           用于代理图片访问，解决跨域或访问限制问题。留空则不使用代理。
@@ -1573,9 +1721,8 @@ const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
       {/* 豆瓣代理设置 */}
       <div>
         <label
-          className={`block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${
-            isD1Storage || isUpstashStorage ? 'opacity-50' : ''
-          }`}
+          className={`block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${isD1Storage || isUpstashStorage ? 'opacity-50' : ''
+            }`}
         >
           豆瓣代理地址
           {isD1Storage && (
@@ -1602,11 +1749,10 @@ const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
             }))
           }
           disabled={isD1Storage || isUpstashStorage}
-          className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-            isD1Storage || isUpstashStorage
-              ? 'opacity-50 cursor-not-allowed'
-              : ''
-          }`}
+          className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-transparent ${isD1Storage || isUpstashStorage
+            ? 'opacity-50 cursor-not-allowed'
+            : ''
+            }`}
         />
         <p className='mt-1 text-xs text-gray-500 dark:text-gray-400'>
           用于代理豆瓣数据访问，解决跨域或访问限制问题。留空则使用服务端API。
@@ -1617,9 +1763,8 @@ const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
       <div>
         <div className='flex items-center justify-between'>
           <label
-            className={`block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${
-              isD1Storage || isUpstashStorage ? 'opacity-50' : ''
-            }`}
+            className={`block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${isD1Storage || isUpstashStorage ? 'opacity-50' : ''
+              }`}
           >
             禁用黄色过滤器
             {isD1Storage && (
@@ -1644,22 +1789,19 @@ const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
               }))
             }
             disabled={isD1Storage || isUpstashStorage}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 ${
-              siteSettings.DisableYellowFilter
-                ? 'bg-green-600'
-                : 'bg-gray-200 dark:bg-gray-700'
-            } ${
-              isD1Storage || isUpstashStorage
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 ${siteSettings.DisableYellowFilter
+              ? 'bg-green-600'
+              : 'bg-gray-200 dark:bg-gray-700'
+              } ${isD1Storage || isUpstashStorage
                 ? 'opacity-50 cursor-not-allowed'
                 : ''
-            }`}
+              }`}
           >
             <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                siteSettings.DisableYellowFilter
-                  ? 'translate-x-6'
-                  : 'translate-x-1'
-              }`}
+              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${siteSettings.DisableYellowFilter
+                ? 'translate-x-6'
+                : 'translate-x-1'
+                }`}
             />
           </button>
         </div>
@@ -1673,11 +1815,10 @@ const SiteConfigComponent = ({ config }: { config: AdminConfig | null }) => {
         <button
           onClick={handleSave}
           disabled={saving}
-          className={`px-4 py-2 ${
-            saving
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-green-600 hover:bg-green-700'
-          } text-white rounded-lg transition-colors`}
+          className={`px-4 py-2 ${saving
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-green-600 hover:bg-green-700'
+            } text-white rounded-lg transition-colors`}
         >
           {saving ? '保存中…' : '保存'}
         </button>
@@ -1696,6 +1837,7 @@ function AdminPageClient() {
     videoSource: false,
     siteConfig: false,
     categoryConfig: false,
+    configSync: false,
   });
 
   // 获取管理员配置
@@ -1822,6 +1964,21 @@ function AdminPageClient() {
             onToggle={() => toggleTab('siteConfig')}
           >
             <SiteConfigComponent config={config} />
+          </CollapsibleTab>
+
+          {/* 配置同步标签 */}
+          <CollapsibleTab
+            title='配置同步'
+            icon={
+              <Settings
+                size={20}
+                className='text-gray-600 dark:text-gray-400'
+              />
+            }
+            isExpanded={expandedTabs.configSync}
+            onToggle={() => toggleTab('configSync')}
+          >
+            <ConfigSyncSection />
           </CollapsibleTab>
 
           <div className='space-y-4'>

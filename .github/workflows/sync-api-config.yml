@@ -1,0 +1,73 @@
+name: Sync API Configuration
+
+on:
+  schedule:
+    # 每天北京时间凌晨 2 点运行 (UTC 18:00)
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      source:
+        description: '配置源'
+        required: false
+        default: 'jin18'
+        type: choice
+        options:
+          - jin18
+          - jingjian
+          - full
+
+jobs:
+  sync-config:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Sync API configuration
+        run: |
+          SOURCE="${{ github.event.inputs.source || 'jin18' }}"
+          echo "📡 从 LunaTV-config 同步配置源: $SOURCE"
+          node scripts/sync-api-config.js "$SOURCE"
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet config.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ 配置文件无变化"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "✅ 配置文件已更新"
+          fi
+      
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # 添加更新的配置文件
+          git add config.json
+          
+          # 提交更新
+          TIMESTAMP=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S CST')
+          git commit -m "🔄 自动同步 API 配置 ($TIMESTAMP)"
+          
+          # 推送到远程
+          git push
+      
+      - name: Summary
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          echo "✨ 配置同步完成！"
+          echo "📅 同步时间: $(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S CST')"
+          echo "📦 配置源: ${{ github.event.inputs.source || 'jin18' }}"

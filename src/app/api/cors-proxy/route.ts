@@ -1,4 +1,3 @@
-```typescript
 import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'edge';
@@ -49,11 +48,11 @@ async function proxyRequest(
     return response;
   } catch (error) {
     if (retries < MAX_RETRIES) {
-      console.log(`Retry ${ retries + 1 }/${MAX_RETRIES} for ${url}`);
-await new Promise((resolve) => setTimeout(resolve, 500));
-return proxyRequest(options, retries + 1);
+      console.log(`Retry ${retries + 1}/${MAX_RETRIES} for ${url}`);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      return proxyRequest(options, retries + 1);
     }
-throw error;
+    throw error;
   }
 }
 
